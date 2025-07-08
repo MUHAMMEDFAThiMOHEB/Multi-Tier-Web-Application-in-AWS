@@ -1,0 +1,32 @@
+.
+├── main.tf                 # Main entry point for the root module
+├── variables.tf            # Root module variables
+├── outputs.tf              # Root module outputs
+├── providers.tf            # AWS provider configuration
+├── terraform.tfvars        # Default variable values (not committed to Git usually if sensitive)
+├── modules/
+│   ├── vpc/                # VPC module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── security-groups/    # Security Groups module (or integrated into vpc/compute)
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── networking/         # Internet Gateway, NAT Gateways, Route Tables module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── compute/            # EC2, Auto Scaling Group, Launch Template module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── load-balancing/     # ALB, Target Group module
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── database/           # If you add RDS later (Private Subnet 3 & 4)
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+└── README.md               # Project documentation
