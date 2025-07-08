@@ -52,3 +52,7 @@ This diagram illustrates a robust, multi-tier web application architecture deplo
 
 12. **Launch Template (`Launch Template`)**
     * **Description:** This is a configuration blueprint used by the Auto Scaling Group to launch new EC2 instances. It specifies all the details required to create an instance, including the Amazon Machine Image (AMI), instance type, associated Security Groups (e.g., `WebSG`), and any user data scripts that run upon launch. This ensures consistency for all instances provisioned by the ASG.
+
+# Project File System:
+
+![Project_File_System](./Assets/Project%20File%20System.png)
