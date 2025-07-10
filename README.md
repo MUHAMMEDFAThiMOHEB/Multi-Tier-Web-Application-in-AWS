@@ -26,6 +26,8 @@ This diagram illustrates a robust, multi-tier web application architecture deplo
     * **Description:** The VPC is segmented into six subnets distributed across the two Availability Zones to enforce network isolation and security:
         * **Public Subnets (2):** One in `eu-central-1a` (Public subnet 1) and one in `eu-central-1b` (Public subnet 2). These subnets host resources that require direct internet access, such as NAT Gateways.
         * **Private Subnets (4):** Two in `eu-central-1a` (Private subnet 1, Private subnet 3 "Reserved for DB") and two in `eu-central-1b` (Private subnet 2, Private subnet 4 "Reserved for DB"). These subnets host application servers and database instances, preventing direct internet access for enhanced security.
+        
+        `Note`: The 2 Private Subnets thet will contain the databases will not be applyed as there is no database included yet `(Future Imporvments)`
 
 5.  **Internet Gateway (IGW)**
     * **Description:** The Internet Gateway provides a connection between the VPC and the public internet. It enables public subnets to communicate with the internet and allows inbound internet traffic to the ALB.
