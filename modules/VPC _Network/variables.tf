@@ -25,3 +25,9 @@ variable "azs" {
     }
 }
 
+#* variables of Route Table
+variable "public_RT_CIDRs" {
+    type = list(string)
+    description = "CIDR Blocsk Destinations"
+}
+

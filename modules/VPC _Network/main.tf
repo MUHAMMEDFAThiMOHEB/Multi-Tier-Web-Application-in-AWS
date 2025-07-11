@@ -33,3 +33,20 @@ resource "aws_subnet" "public" {
     }
 }
 
+#* Route Tables
+resource "aws_route_table" "Public_RT" {
+    vpc_id = aws_vpc.master_vpc.id
+    route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = aws_internet_gateway.igw.id
+    }
+
+    route {
+        cidr_block = "10.0.0.0/16"
+        gateway_id = "local"
+    }
+
+    tags = {
+        Name      = "Public_RT"
+    }
+}
