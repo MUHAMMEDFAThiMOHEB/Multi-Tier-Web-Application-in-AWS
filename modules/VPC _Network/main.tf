@@ -7,24 +7,21 @@ resource "aws_vpc" "master_vpc" {
     }
 }
 
-#* IGW creation
+#* IGW creation & attachment
 resource "aws_internet_gateway" "igw" {
+    vpc_id = aws_vpc.master_vpc.id
+
     tags = {
         Name = "Main_IGW"
     }
 }
 
-resource "aws_internet_gateway_attachment" "igw_att" {
-    internet_gateway_id = aws_internet_gateway.igw.id
-    vpc_id = aws_vpc.master_vpc.id
-}
+#* Public Subnet creation
+resource "aws_subnet" "public_subnet" {
+    count = length(var.pub.cidr_blocks)
 
-#* Subnet creation
-resource "aws_subnet" "public" {
-    count = length(var.cidr_blocks)
-
-    vpc_id                  = aws_vpc.main.id
-    cidr_block              = var.cidr_blocks[count.index]
+    vpc_id                  = aws_vpc.master_vpc.id
+    cidr_block              = var.pub.cidr_blocks[count.index]
     availability_zone       = var.azs[count.index]
     map_public_ip_on_launch = true
 
@@ -37,16 +34,37 @@ resource "aws_subnet" "public" {
 resource "aws_route_table" "Public_RT" {
     vpc_id = aws_vpc.master_vpc.id
     route {
-        cidr_block = "0.0.0.0/0"
+        cidr_block = var.public_RT_CIDRs[0]
         gateway_id = aws_internet_gateway.igw.id
     }
 
     route {
-        cidr_block = "10.0.0.0/16"
+        cidr_block = var.public_RT_CIDRs[1]
         gateway_id = "local"
     }
 
     tags = {
         Name      = "Public_RT"
+    }
+}
+
+#* Associate public route table with all public subnets
+resource "aws_route_table_association" "public_subnet" {
+    count = length(aws_subnet.public_subnet)
+    route_table_id = aws_route_table.Public_RT.id
+    subnet_id      = aws_subnet.public_subnet[count.index].id
+    }
+
+#* Create 2 Private subnets
+resource "aws_subnet" "private_subnet" {
+    count = length(var.priv_cidr_blocks)
+
+    vpc_id                  = aws_vpc.master_vpc.id
+    cidr_block              = var.priv.cidr_blocks[count.index]
+    availability_zone       = var.azs[count.index]
+    map_public_ip_on_launch = false
+
+    tags = {
+        Name = "PublicSubnet-${count.index + 1}"
     }
 }
