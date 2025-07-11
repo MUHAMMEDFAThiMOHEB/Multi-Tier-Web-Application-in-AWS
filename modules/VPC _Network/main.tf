@@ -44,7 +44,7 @@ resource "aws_route_table" "Public_RT" {
     }
 
     tags = {
-        Name      = "Public_RT"
+        Name      = "Public_RT${count.index + 1}"
     }
 }
 
@@ -91,7 +91,7 @@ resource "aws_nat_gateway" "NATGW" {
 
 #* Route Table for private subnet1
 resource "aws_route_table" "Private_RT1" {
-    depends_on = [aws_nat_gateway.NATGW]
+    depends_on = [aws_nat_gateway.NATGW[0]]
     vpc_id = aws_vpc.master_vpc.id
 
     route {
@@ -111,7 +111,7 @@ resource "aws_route_table" "Private_RT1" {
 
 #* Associate private route table 1 to private subnet 1
 resource "aws_route_table_association" "pri_sub1_rt" {
-    depends_on     = [aws_subnet.private_subnet1]
+    depends_on     = [aws_subnet.private_subnet]
     route_table_id = aws_route_table.Private_RT1.id
     subnet_id      = aws_subnet.private_subnet[0].id
 }
@@ -132,13 +132,13 @@ resource "aws_route_table" "Private_RT2" {
     }
 
     tags = {
-        Name      = "Private_RT_1"
+        Name      = "Private_RT_2"
     }
 }
 
 #* Associate private route table 2 to private subnet 2
-resource "aws_route_table_association" "pri_sub1_rt" {
-    depends_on     = [aws_subnet.private_subnet2]
+resource "aws_route_table_association" "pri_sub2_rt" {
+    depends_on     = [aws_subnet.private_subnet]
     route_table_id = aws_route_table.Private_RT2.id
     subnet_id      = aws_subnet.private_subnet[1].id
 }

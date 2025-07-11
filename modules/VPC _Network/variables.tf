@@ -10,7 +10,7 @@ variable "pub_cidr_blocks" {
     description = "CIDR blocks of the public subnets"
 
     validation {
-        condition     = var.cidr_blocks == ["10.0.10.0/24", "10.0.20.0/24"]
+        condition     = var.pub_cidr_blocks == ["10.0.10.0/24", "10.0.20.0/24"]
         error_message = "Only the following CIDRs are allowed: 10.0.10.0/24 and 10.0.20.0/24."
     }
 }
@@ -21,7 +21,7 @@ variable "priv_cidr_blocks" {
     description = "CIDR blocks of the private subnets"
 
     validation {
-        condition     = var.cidr_blocks == ["10.0.100.0/24", "10.0.200.0/24"]
+        condition     = var.priv_cidr_blocks == ["10.0.100.0/24", "10.0.200.0/24"]
         error_message = "Only the following CIDRs are allowed: 10.0.100.0/24 and 10.0.200.0/24."
     }
 }
@@ -43,7 +43,7 @@ variable "RT_CIDRs" {
     description = "CIDR Blocsk Destinations"
 
     validation {
-        condition     = var.cidr_blocks == ["0.0.0.0/0", "10.0.0.0/16"]
+        condition     = var.RT_CIDRs == ["0.0.0.0/0", "10.0.0.0/16"]
         error_message = "Only the following CIDRs are allowed: 0.0.0.0/0 and 10.0.0.0/16."
     }
 }
